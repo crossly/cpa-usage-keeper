@@ -85,6 +85,8 @@ const (
 	migrationCodexQuotaHistory = "20260820_codex_quota_history"
 	// migrationAddCPAAPIKeySource 区分 CPA 核心 key 与 key-policy 插件 key，存量行回填为 cpa。
 	migrationAddCPAAPIKeySource = "20260822_add_cpa_api_key_source"
+	// migrationRebuildQuotaHistory 清空错误 Codex 历史并切换到通用额度历史父子表。
+	migrationRebuildQuotaHistory = "20260822_rebuild_quota_history"
 )
 
 type schemaMigration struct {
@@ -208,6 +210,8 @@ func orderedMigrations() []databaseMigration {
 		{version: migrationCodexQuotaHistory, run: createCodexQuotaHistoryMigration},
 		// source 列只做加列与存量回填，默认单事务即可保证原子性。
 		{version: migrationAddCPAAPIKeySource, run: addCPAAPIKeySourceMigration},
+		// 破坏性清空与通用表创建必须和版本标记处于同一个默认事务。
+		{version: migrationRebuildQuotaHistory, run: rebuildQuotaHistoryMigration},
 	}
 }
 
