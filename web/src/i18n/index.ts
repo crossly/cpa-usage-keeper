@@ -12,9 +12,13 @@ export const isSupportedLanguage = (language: string | null): language is Suppor
 );
 
 const getInitialLanguage = (): SupportedLanguage => {
-  if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
-  const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-  return isSupportedLanguage(saved) ? saved : DEFAULT_LANGUAGE;
+	if (typeof window === 'undefined') return DEFAULT_LANGUAGE;
+	try {
+		const saved = window.localStorage?.getItem(LANGUAGE_STORAGE_KEY) ?? null;
+		return isSupportedLanguage(saved) ? saved : DEFAULT_LANGUAGE;
+	} catch {
+		return DEFAULT_LANGUAGE;
+	}
 };
 
 const resources = {

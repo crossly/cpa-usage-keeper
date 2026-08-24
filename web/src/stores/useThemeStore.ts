@@ -4,7 +4,7 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 import type { Theme } from '@/types';
 import { STORAGE_KEY_THEME } from '@/utils/constants';
 
@@ -58,6 +58,26 @@ const applyTheme = (resolved: AppliedTheme) => {
   document.documentElement.removeAttribute('data-theme');
 };
 
+const fallbackThemeStorageValues: Record<string, string> = {};
+
+const fallbackThemeStorage: StateStorage = {
+	getItem: (name) => fallbackThemeStorageValues[name] ?? null,
+	setItem: (name, value) => {
+		fallbackThemeStorageValues[name] = value;
+	},
+	removeItem: (name) => {
+		delete fallbackThemeStorageValues[name];
+	},
+};
+
+const getThemeStorage = (): StateStorage => {
+	if (typeof window === 'undefined') return fallbackThemeStorage;
+	try {
+		return window.localStorage ?? fallbackThemeStorage;
+	} catch {
+		return fallbackThemeStorage;
+	}
+};
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
@@ -109,6 +129,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: STORAGE_KEY_THEME,
+      storage: createJSONStorage(getThemeStorage),
     }
   )
 );
