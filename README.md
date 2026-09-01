@@ -121,7 +121,7 @@ internal/service/        Usage, pricing, and identity services
 internal/quota/          Provider quota refresh and inspection
 internal/ranking/        Community ranking aggregation and sync
 internal/benchmark/      Capacity suite, reports, manifests, and legacy microbenchmarks
-deploy/linux/            systemd service template
+deploy/                  Deployment templates
 web/                     React + TypeScript frontend
 ```
 
@@ -238,7 +238,7 @@ CPA data is stored under `./cpa`, and Keeper data is stored under `./keeper`.
 When CPA is already deployed, use the repository's Keeper-only Compose template:
 
 ```bash
-cp docker-compose.example.yml docker-compose.yml
+cp deploy/docker-compose.example.yml docker-compose.yml
 cp .env.example .env
 vim .env
 ```
@@ -395,6 +395,7 @@ For cross-origin CPAMC embedding, `CPA_PUBLIC_URL` must be a complete `http://` 
 | `AUTH_ENABLED` | No | `true` | Enable login protection |
 | `LOGIN_PASSWORD` | When auth is enabled | - | Login password |
 | `AUTH_SESSION_TTL` | No | `168h` | Login session lifetime |
+| `API_KEY_VIEWER_LOCAL_RANKING_ENABLED` | No | `false` | Allow API Key viewers to read Local Ranking; Community Ranking remains read-only |
 
 ### Timezone And Request Behavior
 

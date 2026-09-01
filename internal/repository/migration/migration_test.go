@@ -86,6 +86,8 @@ func TestOrderedMigrationsPreservesExecutionOrder(t *testing.T) {
 		// CPA API Key 来源列在当前序列最后追加，不能插入已发布迁移之间。
 		"20260822_add_cpa_api_key_source",
 		"20260822_rebuild_quota_history",
+		"20260824_add_auth_session_alias",
+		"20260827_reset_quota_history",
 	}
 	assertStringSlicesEqual(t, want, got)
 }
@@ -127,6 +129,9 @@ func TestOpenDatabaseRunsSchemaMigrationsAndAddsUsageEventRedisFields(t *testing
 		if !db.Migrator().HasColumn(&entities.AuthSession{}, column) {
 			t.Fatalf("expected auth_sessions.%s column to exist", column)
 		}
+	}
+	if !db.Migrator().HasColumn(&entities.AuthSession{}, "alias") {
+		t.Fatal("expected auth_sessions.alias column to exist")
 	}
 	if !db.Migrator().HasTable(&entities.AppSetting{}) {
 		t.Fatal("expected app_settings table to exist")
