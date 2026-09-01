@@ -251,7 +251,9 @@ jobs:
             dist/*.zip
             dist/checksums.txt
 
+  # Forks publish binaries and Docker images only; the Homebrew tap is owned by upstream.
   update-homebrew-tap:
+    if: ${{ github.repository == 'Willxup/cpa-usage-keeper' }}
     runs-on: ubuntu-24.04
     needs: publish-release
     steps:
