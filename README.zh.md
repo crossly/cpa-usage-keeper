@@ -75,6 +75,7 @@ CPA Usage Keeper 是面向 [CLIProxyAPI（CPA）](https://github.com/router-for-
 - 监控 Auth Files 与 AI Providers 的用量、健康状态和限额，支持健康巡检与限额刷新
 - 可选择加入社区排名，按综合得分、Token、请求量、缓存率、平均 TTFT/延迟或峰值 TPM/RPM 对比表现
 - 为单个 CPA API Key 提供独立的只读用量视图
+- 可选同步 CPA key-policy 插件发行的启用 API Key；插件 key 不可作为登录凭据
 - 自动同步 CPA Auth Files、API Keys 和 AI Providers，并维护模型价格用于成本估算
 - 支持 Docker/Docker Compose、Homebrew、二进制和 systemd 部署，并可启用密码保护
 - 通过 CPA 插件将 Keeper Dashboard 嵌入 CPAMC
@@ -396,6 +397,7 @@ cp .env.example .env
 | `LOGIN_PASSWORD` | 鉴权启用时必填 | - | 登录密码 |
 | `AUTH_SESSION_TTL` | 否 | `168h` | 登录 session 有效时长 |
 | `API_KEY_VIEWER_LOCAL_RANKING_ENABLED` | 否 | `false` | 允许 API Key 登录用户只读查看本地排行；Community 排行始终只读 |
+| `KEY_POLICY_SYNC_ENABLED` | 否 | `false` | 同步 CPA key-policy 插件发行的启用 API Key；插件 key 不可用于登录 |
 
 ### 时区与请求行为
 
